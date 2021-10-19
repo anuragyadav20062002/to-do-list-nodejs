@@ -53,9 +53,13 @@ app.get("/", (req, res) => {
 })
 
 app.post("/", (req, res) => {
-  var item = req.body.newItem
-  items.push(item)
-  res.redirect("/")
+  const newItem = req.body.newItem
+
+  const item = new Item({
+    name: newItem,
+  })
+
+  item.save()
 })
 
 app.listen(3000, function () {
