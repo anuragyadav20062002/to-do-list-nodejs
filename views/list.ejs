@@ -6,5 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <%if(kindOfDay ==="Sunday"|| kindOfDay==="Saturday"){%>
+    <h1 style="color: purple">It's a <%= kindOfDay%> TO-DO-List</h1>
+    <% } else{%>
+    <h1 style="color: blue">It's a <%= kindOfDay%> TO-DO-List</h1>
+    <% }%>
+  </body>
 </html>
