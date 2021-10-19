@@ -33,6 +33,13 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3]
 
+const listschema = {
+  name: String,
+  items: [itemschema],
+}
+
+const List = mongoose.model("List", listschema)
+
 // //////////////////Main Route///////////////////////
 
 app.get("/", (req, res) => {
@@ -60,6 +67,30 @@ app.post("/", (req, res) => {
   })
 
   item.save()
+})
+
+app.get("/:customListName", (req, res) => {
+  const customListName = req.params.customListName
+
+  List.findOne({ name: customListName }, function (err, foundlist) {
+    if (!err) {
+      if (!foundlist) {
+        //creates new list//
+        const list = new List({
+          name: customListName,
+          items: defaultItems,
+        })
+
+        list.save()
+      } else {
+        //dosent create a new list and shows the list created//
+        res.render("list", {
+          kindOfDay: foundlist.name,
+          newListItems: foundlist.items,
+        })
+      }
+    }
+  })
 })
 
 app.post("/delete", (req, res) => {
