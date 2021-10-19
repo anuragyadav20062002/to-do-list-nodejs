@@ -2,7 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 
 const app = express()
-var item = ""
+var items = ["Buy Food", "Cook Food", "Eat Food"]
 app.set("view engine", "ejs")
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -20,12 +20,13 @@ app.get("/", (req, res) => {
 
   res.render("list", {
     kindOfDay: day,
-    newListItem: item,
+    newListItems: items,
   })
 })
 
 app.post("/", (req, res) => {
-  item = req.body.newItem
+  var item = req.body.newItem
+  items.push(item)
   res.redirect("/")
 })
 
