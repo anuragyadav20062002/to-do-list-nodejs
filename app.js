@@ -62,6 +62,19 @@ app.post("/", (req, res) => {
   item.save()
 })
 
+app.post("/delete", (req, res) => {
+  const itemID = req.body.checkbox
+
+  Item.findByIdAndRemove(itemID, function (err) {
+    if (err) {
+      console.log("Error in deleting the item")
+    } else {
+      console.log("Successfully Deleted the desired Item from the Database")
+    }
+    res.redirect("/")
+  })
+})
+
 app.listen(3000, function () {
   console.log("Server Started successfully on port 3000")
 })
