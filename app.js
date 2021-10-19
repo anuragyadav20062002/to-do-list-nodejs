@@ -1,26 +1,46 @@
 const express = require("express")
 const bodyParser = require("body-parser")
+const mongoose = require("mongoose")
 
 const app = express()
-var items = ["Buy Food", "Cook Food", "Eat Food"]
+
 app.set("view engine", "ejs")
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
 
+mongoose.connect("mongodb://localhost:27017/todolistDB", {
+  usenewUrlParser: true,
+})
+
+const itemschema = {
+  name: String,
+}
+
+const Item = mongoose.model("Item", itemschema)
+
+const item1 = new Item({
+  name: "Hi this is a To Do list",
+})
+
+const item2 = new Item({
+  name: "Press + to add your new item",
+})
+
+const item3 = new Item({
+  name: "Check the box to delete the item",
+})
+
+const defaultItems = [item1, item2, item3]
+
+Item.insertMany(defaultItems, function (err) {
+  if (err) console.log("Error transferring the items")
+  else console.log("successfully inserted items")
+})
+
 app.get("/", (req, res) => {
-  var today = new Date()
-
-  const options = {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  }
-
-  var day = today.toLocaleDateString("en-US", options)
-
   res.render("list", {
-    kindOfDay: day,
+    kindOfDay: "Today",
     newListItems: items,
   })
 })
