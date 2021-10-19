@@ -42,11 +42,13 @@ app.get("/", (req, res) => {
         if (err) console.log("Error transferring the items")
         else console.log("successfully inserted items")
       })
+      res.redirect("/")
+    } else {
+      res.render("list", {
+        kindOfDay: "Today",
+        newListItems: founditems,
+      })
     }
-    res.render("list", {
-      kindOfDay: "Today",
-      newListItems: founditems,
-    })
   })
 })
 
