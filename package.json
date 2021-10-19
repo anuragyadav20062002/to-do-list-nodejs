@@ -1,0 +1,19 @@
+{
+  "name": "to-do-list-nodejs",
+  "version": "1.0.0",
+  "description": "To-Do-List_app using nodejs ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuragyadav20062002/to-do-list-nodejs.git"
+  },
+  "author": "Anurag",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anuragyadav20062002/to-do-list-nodejs/issues"
+  },
+  "homepage": "https://github.com/anuragyadav20062002/to-do-list-nodejs#readme"
+}
