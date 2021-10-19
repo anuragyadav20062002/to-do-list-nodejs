@@ -33,15 +33,20 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3]
 
-Item.insertMany(defaultItems, function (err) {
-  if (err) console.log("Error transferring the items")
-  else console.log("successfully inserted items")
-})
+// //////////////////Main Route///////////////////////
 
 app.get("/", (req, res) => {
-  res.render("list", {
-    kindOfDay: "Today",
-    newListItems: items,
+  Item.find({}, function (err, founditems) {
+    if (founditems.length === 0) {
+      Item.insertMany(defaultItems, function (err) {
+        if (err) console.log("Error transferring the items")
+        else console.log("successfully inserted items")
+      })
+    }
+    res.render("list", {
+      kindOfDay: "Today",
+      newListItems: founditems,
+    })
   })
 })
 
