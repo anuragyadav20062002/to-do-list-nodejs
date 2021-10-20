@@ -106,15 +106,28 @@ app.get("/:customListName", (req, res) => {
 
 app.post("/delete", (req, res) => {
   const itemID = req.body.checkbox
+  const listName = req.body.listName
 
-  Item.findByIdAndRemove(itemID, function (err) {
-    if (err) {
-      console.log("Error in deleting the item")
-    } else {
-      console.log("Successfully Deleted the desired Item from the Database")
-    }
-    res.redirect("/")
-  })
+  if (listName === "Today") {
+    Item.findByIdAndRemove(itemID, function (err) {
+      if (err) {
+        console.log("Error in deleting the item")
+      } else {
+        console.log("Successfully Deleted the desired Item from the Database")
+      }
+      res.redirect("/")
+    })
+  } else {
+    List.findOneAndUpdate(
+      { name: listName },
+      { $pull: { items: { _id: itemID } } },
+      function (err) {
+        if (!err) {
+          res.redirect("/" + listName)
+        }
+      }
+    )
+  }
 })
 
 app.listen(3000, function () {
