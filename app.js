@@ -61,12 +61,22 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
   const newItem = req.body.newItem
+  const kindOfDay = req.body.list
 
   const item = new Item({
     name: newItem,
   })
 
-  item.save()
+  if (kindOfDay === "Today") {
+    item.save()
+    res.redirect("/")
+  } else {
+    List.findOne({ name: kindOfDay }, function (err, foundlist) {
+      foundlist.items.push(item)
+      foundlist.save()
+      res.redirect("/" + kindOfDay)
+    })
+  }
 })
 
 app.get("/:customListName", (req, res) => {
@@ -82,6 +92,7 @@ app.get("/:customListName", (req, res) => {
         })
 
         list.save()
+        res.redirect("/" + customListName)
       } else {
         //dosent create a new list and shows the list created//
         res.render("list", {
