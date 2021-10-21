@@ -1,3 +1,8 @@
+// Requiring all the FileSystem
+// Express for app
+// Body Parser for accesing html elements from their namespace
+// mongoose to connect program to mongoose
+
 const express = require("express")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
@@ -5,10 +10,16 @@ const _ = require("lodash")
 
 const app = express()
 
+// Setting view engine to ejs
+
 app.set("view engine", "ejs")
+
+// using body parser and using static files
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
+
+// connecting to mongoose
 
 mongoose.connect(
   "mongodb+srv://admin-anurag:anurag123@cluster0.lg7mk.mongodb.net/todolistDB",
@@ -17,6 +28,7 @@ mongoose.connect(
   }
 )
 
+// making item schema and some items to store in default item array
 const itemschema = {
   name: String,
 }
@@ -37,6 +49,7 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3]
 
+//creating list schema and mongoose model
 const listschema = {
   name: String,
   items: [itemschema],
@@ -63,6 +76,8 @@ app.get("/", (req, res) => {
   })
 })
 
+//this code runs when a post request is sent by pressing the button
+
 app.post("/", (req, res) => {
   const newItem = req.body.newItem
   const listTitle = req.body.list
@@ -82,6 +97,8 @@ app.post("/", (req, res) => {
     })
   }
 })
+
+//getting custom list names list
 
 app.get("/:customListName", (req, res) => {
   const customListName = _.capitalize(req.params.customListName)
@@ -108,6 +125,8 @@ app.get("/:customListName", (req, res) => {
   })
 })
 
+//deleting an item from the list
+
 app.post("/delete", (req, res) => {
   const itemID = req.body.checkbox
   const listName = req.body.listName
@@ -133,6 +152,8 @@ app.post("/delete", (req, res) => {
     )
   }
 })
+
+//listening to the port
 
 let port = process.env.PORT
 if (port == null || port == "") {
